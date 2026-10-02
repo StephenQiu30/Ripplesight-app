@@ -12,7 +12,6 @@ DOCUMENTS = (
     "README.md",
     "AGENTS.md",
     "CONTRIBUTING.md",
-    "HANDOVER.md",
     "PROJECT.md",
     "SECURITY.md",
     ".github/PULL_REQUEST_TEMPLATE.md",
