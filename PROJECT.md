@@ -1,69 +1,34 @@
-# HotKey App 项目与技术选型
+# HotKey App 项目与架构
 
-更新日期：2026-09-21。本文件是 `hotkey-app` 的技术选型入口。工程规范见 [AGENTS.md](AGENTS.md)，当前交接见 [HANDOVER.md](HANDOVER.md)。
+HotKey独立客户端固定Flutter+Dart，Web由同级hotkey-server/frontend维护。本仓库尚未初始化Flutter，当前只有工程规范和协作配置，无pubspec.yaml、lib、平台工程或安装包；App交付暂停，统一状态见 [Server BACKLOG](https://github.com/StephenQiu30/hotkey-server/blob/main/BACKLOG.md)。
 
-## 1. 定位与固定技术
+## 技术与目录
 
-`hotkey-app` 是 HotKey 独立客户端仓库，由原 `hotkey-web` 本地重命名而来。**固定技术为 Flutter + Dart，依赖通过 Flutter/Dart pub 管理。** Web 工作台由 `hotkey-server/frontend/` 使用 Next.js 实现，本仓库不保留 Next.js/React/TypeScript Web 工程。
-
-| 项目 | 固定约定 |
-|---|---|
-| 应用框架与语言 | Flutter + Dart |
-| 依赖管理 | `pubspec.yaml` 声明依赖，应用提交 `pubspec.lock` |
-| 业务 API | 消费 `hotkey-server` 发布的 FastAPI OpenAPI 契约 |
-| 数据边界 | 客户端不直连 PostgreSQL、Redis、Kafka 或持有服务端密钥 |
-| 质量 | Dart 格式与分析、Flutter 单元/Widget 测试、目标平台构建、设备集成验证 |
-
-Flutter/Dart 兼容版本在初始化时锁定。目标平台、应用标识、状态管理、路由、HTTP 库和 Dart OpenAPI 生成器尚未冻结，按首个实际功能切片决定；不预装一套未经决定的 Flutter 插件。
-
-## 2. 目录与契约
-
-当前实际存在根 PROJECT、HANDOVER、AGENTS、贡献/安全规范及协作配置；Flutter 应用尚未初始化。
-
-以下为初始化后的目录约定，只按真实切片创建：
+Flutter/Dart版本在初始化时锁定，依赖使用pub并提交应用pubspec.lock。目标平台、应用标识、状态管理、导航、HTTP库和Dart OpenAPI生成器尚未冻结，首个实际切片确定，不预装无使用方的框架或所有平台。
 
 ```text
-hotkey-app/
-├── lib/
-│   ├── main.dart          # 启动入口
-│   ├── app/               # 应用装配、主题与导航
-│   ├── features/          # 业务功能
-│   └── api/               # OpenAPI 生成客户端
-├── test/                  # 单元与 Widget 测试
-├── integration_test/      # 设备集成测试
-├── pubspec.yaml
-└── pubspec.lock
+lib/main.dart           # 启动
+lib/app/                # 装配、主题和导航
+lib/features/           # 业务功能
+lib/api/                # OpenAPI生成客户端
+test/                   # 单元/Widget
+integration_test/       # 设备集成
+pubspec.yaml
+pubspec.lock
 ```
 
-平台目录由 Flutter 官方工具按已确定目标生成，不手工伪造平台工程。唯一契约读取同版本服务端运行时 `/openapi.json`，源为 FastAPI 路由与 Pydantic；需要离线归档时仅使用同提交 CI 导出的产物，不手工维护 OpenAPI 文件；禁止从旧 Web 客户端复制 DTO。生成器确定后锁定配置和版本，生成代码可复现，业务调用通过单一客户端适配入口。
+以上为初始化后的约定，平台目录由Flutter官方工具生成；按真实使用创建业务模块。
 
-客户端只保存必要的会话与展示数据，秘密使用目标平台安全存储；API 地址属于可见配置，不将打包配置误当成秘密。移动端鉴权、刷新与退出按服务端契约实现，不能直接照搬 Web 的同源 Cookie/CSRF 假设。
+## 契约与安全
 
-## 3. 开发与验证
+API类型/端点由同版本服务端运行时/openapi.json生成，离线输入仅使用同提交CI自动导出产物，不手写第二契约或复制Web DTO。单一传输入口消费生成ErrorView，区分HTTP/网络/超时/取消/非JSON，读取details与请求ID头/body回退；204/文件不包JSON，失败任务正常查询保持业务状态。按code/status分支，禁止message匹配、自动重试写请求及通用万能包装。
 
-公共异常、HTTP 状态、错误码、资源/分页/任务响应遵循 [Server 046 Design](https://github.com/StephenQiu30/hotkey-server/blob/main/docs/design/046-全局异常与响应契约设计.md)。Server 046 S03 通过后才开始本仓库实现；范围与设计准备可先开展。App 业务接入另须完成 APP-02 的生成客户端和设备契约验证，Web 通过不代表 App 通过，服务端门禁也不反向等待 Flutter 初始化。
+公共响应/错误与身份合同以 [Server PROJECT](https://github.com/StephenQiu30/hotkey-server/blob/main/PROJECT.md) 和 [Design001](https://github.com/StephenQiu30/hotkey-server/blob/main/docs/design/001-热点舆情监控平台总体设计.md) 为准。App实现前核验同版本服务端HTTP/OpenAPI合同，APP-02独立完成生成客户端和设备验证；Web通过不代表App通过，服务端门禁不等待App初始化。
 
-单一客户端入口使用生成的 ErrorView，正确读取 details 和响应头/body request_id；分别处理 HTTP、网络、超时、取消、非 JSON。失败任务的成功查询仍按 HTTP 200 消费业务状态；取消请求不等于已取消任务。字段/页面/操作反馈由功能层决定，不按 message 匹配、不自动重试写操作；204 与文件不进入 JSON 包装。
+移动端鉴权/刷新/过期/退出按服务端实际合同确定，不直接照搬Web同源Cookie/CSRF假设。客户端不直连PostgreSQL/Redis/Kafka/MinIO管理；生产API使用HTTPS，会话用平台安全存储，退出清理必要缓存。API地址是公开客户端配置，不在资源/源码/dart-define中放服务端秘密、签名私钥或账号资料。
 
-优先实现核心监控、事件、证据流程，覆盖正常、空、加载、失败和无权限状态，并考虑生命周期、网络中断与无障碍。产品需求来自 server 的统一 PRD；App 功能和设备验收需独立记录，不继承 Web 浏览器结果。
+## 验证与维护
 
-Flutter 初始化后建立以下检查入口；当前没有 pubspec，不宣称这些命令已经通过：
+UI覆盖正常/空/加载/失败/权限，核对触控/键盘/语义标签/字体缩放/对比度和平台交互；生命周期/重连/取消/重试遵守接口语义，页面重建不得无界重复调用。优先核心主题、内容/评论、事件和证据，需求来自服务端统一PRD，设备验收独立记录。
 
-- `flutter pub get`
-- `dart format --output=none --set-exit-if-changed lib test`（只传实际存在的目录）
-- `flutter analyze`
-- `flutter test`
-- 已选平台的构建及 `integration_test` 设备验证
-- OpenAPI 生成漂移检查（生成工具确定后补充命令）
-
-## 4. 重命名与交付
-
-本地目录由 `hotkey-web` 改名为 `hotkey-app`，保留 `.git`、分支和提交历史。当前 `origin` 为 `https://github.com/StephenQiu30/hotkey-app.git`；客户端仍未初始化。历史重命名记录见 [HANDOVER.md](HANDOVER.md)。
-
-两个项目分别在各自仓库根维护 PROJECT 与 HANDOVER。这里不再重复 server 的基础设施选型，以避免两份后端规范漂移；服务端接口变化必须同步生成客户端及验证。
-
-依据：[Flutter 官方项目创建说明](https://docs.flutter.dev/reference/create-new-app)。本文固定技术与目录方向，不代替应用实现或设备验收。
-
-## 5. 产品交付编排
-
-统一需求和跨仓库排期见 [Server BACKLOG](https://github.com/StephenQiu30/hotkey-server/blob/main/BACKLOG.md) 的 App 交付队列。App 独立安排目标平台、鉴权、监控/事件/证据及设备验证；Web 的 M5 验收不代表 App 完成，App 未初始化也不应让已冻结的 Web 首版无限等待。目标平台和首批功能由 App 范围切片冻结，当前不扩为全部平台或全功能对齐。
+初始化后执行flutter pub get、Dart格式、flutter analyze、flutter test、生成漂移、目标平台构建和integration_test；当前无应用，不宣称这些检查通过。工程规范见 [AGENTS](AGENTS.md)，贡献/安全见 [CONTRIBUTING](CONTRIBUTING.md)/[SECURITY](SECURITY.md)。技术边界在本文维护，状态只在统一BACKLOG维护，不追加交接流水。

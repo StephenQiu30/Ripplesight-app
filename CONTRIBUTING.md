@@ -1,6 +1,6 @@
 # 为 HotKey App 贡献
 
-`hotkey-app` 使用 Flutter + Dart，是 HotKey 独立客户端。先阅读 [PROJECT.md](PROJECT.md)、[AGENTS.md](AGENTS.md) 和 [HANDOVER.md](HANDOVER.md)。Web 工作台在 `hotkey-server/frontend/`。
+`hotkey-app` 使用 Flutter + Dart，是 HotKey 独立客户端。先阅读 [PROJECT.md](PROJECT.md)、[AGENTS.md](AGENTS.md)。Web 工作台在 `hotkey-server/frontend/`。
 
 ## 当前状态与开发约束
 

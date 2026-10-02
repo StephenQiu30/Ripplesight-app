@@ -1,6 +1,6 @@
 # AGENTS.md — hotkey-app
 
-本文件适用于整个仓库。`hotkey-app` 是独立 Flutter 客户端，由原 `hotkey-web` 本地重命名而来。技术基线见 [PROJECT.md](PROJECT.md)，交接见 [HANDOVER.md](HANDOVER.md)。Web 工作台统一在 `hotkey-server/frontend/`。
+本文件适用于整个仓库。`hotkey-app` 是独立 Flutter 客户端。技术基线见 [PROJECT.md](PROJECT.md)，统一状态见 [Server BACKLOG](https://github.com/StephenQiu30/hotkey-server/blob/main/BACKLOG.md)。Web 工作台统一在 `hotkey-server/frontend/`。
 
 当前只有规范与协作配置，没有 Flutter 应用或依赖清单；下列目录和命令属于后续初始化约束，不能声称已经存在或验证通过。
 
@@ -14,7 +14,7 @@
 
 ## 目录与开发
 
-- 实施前必须核验 [Server 046 前置计划](https://github.com/StephenQiu30/hotkey-server/blob/main/docs/plans/046-全局异常与响应契约前置计划.md) S03 通过证据，统一协议见同编号 Design；设计准备可先开展。App 业务接入还须完成 Server BACKLOG 的 APP-02 契约与设备验证。
+- 实施前核验同版本服务端HTTP/OpenAPI/身份合同；App业务接入须完成Server BACKLOG的APP-02生成客户端和设备契约验证。
 - 单一传输入口消费生成 DTO，按 code/status 分支，读取 details 及请求 ID 回退；分别验证网络、超时、取消、非 JSON、204、文件、会话失效和失败任务查询。不复制服务端错误模型、不把所有异常包装成 HTTP 500、不在传输层自动重试写请求。
 
 - `lib/main.dart` 只做启动；`lib/app/` 负责应用装配、主题和导航，`lib/features/` 按业务功能组织，`lib/api/` 保存生成客户端。

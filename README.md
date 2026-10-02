@@ -4,9 +4,9 @@ HotKey 的独立 Flutter 客户端仓库。HotKey 计划围绕关键词监控公
 
 ## 项目状态
 
-**Flutter 应用尚未初始化。**本仓库目前只有技术约束、设计参考和协作配置，没有 `pubspec.yaml`、`lib/`、平台工程或可运行安装包。因此目前没有 App 安装、启动或设备测试步骤。服务端的 Web 页面和 API 验证也不代表移动端功能已经完成。
+**Flutter 应用尚未初始化。**本仓库目前只有技术约束和协作配置，没有 `pubspec.yaml`、`lib/`、平台工程或可运行安装包。因此目前没有 App 安装、启动或设备测试步骤。服务端的 Web 页面和 API 验证也不代表移动端功能已经完成。
 
-已确定客户端使用 Flutter + Dart，从 HotKey 服务端运行时 OpenAPI 生成客户端，不复制 Web 工程或手写第二套服务端数据模型。目标平台、应用标识、鉴权方式与首批功能需要在初始化切片中确定。范围与依赖见 [项目说明](PROJECT.md)，当前交接见 [HANDOVER](HANDOVER.md)。
+已确定客户端使用 Flutter + Dart，从 HotKey 服务端运行时 OpenAPI 生成客户端，不复制 Web 工程或手写第二套服务端数据模型。目标平台、应用标识、鉴权方式与首批功能需要在初始化切片中确定。范围与依赖见 [项目说明](PROJECT.md)，状态见 [Server BACKLOG](https://github.com/StephenQiu30/hotkey-server/blob/main/BACKLOG.md)。
 
 ## 参与项目
 
