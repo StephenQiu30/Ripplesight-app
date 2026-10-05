@@ -1,40 +1,5 @@
 # 安全策略
 
-当前仅保留规范文件；下列支持策略和安全要求用于后续实现，不表示已有可运行或通过安全验收的版本。
+本仓库当前已冻结，没有可以发布的应用。
 
-HotKey App（Flutter 客户端）会处理账号与会话、原始证据与报告内容的展示、第三方来源配置的表单输入。请负责任地报告影响 app 端或与后端协作链路的安全问题。
-
-## 支持范围
-
-| 版本 | 安全更新 |
-| --- | --- |
-| `main` | 接收报告并评估 |
-| 历史提交与未维护分支 | 不支持 |
-
-## 私密报告漏洞
-
-请使用 GitHub 的 [Private Vulnerability Reporting](https://github.com/StephenQiu30/hotkey-app/security/advisories/new) 私密提交报告，不要创建包含漏洞细节的公开 Issue、Pull Request 或 Discussion。若私密入口不可用，只创建不含漏洞细节的 Issue 请求维护者提供私密联系方式。
-
-报告最好包含受影响的版本或提交、页面或功能、漏洞类型、影响范围、前置条件、最小化复现步骤和可能的缓解措施。不要提交真实 Token、Cookie、密钥、邮箱、个人数据、内容正文或可直接利用的攻击载荷。
-
-## 响应目标
-
-- 3 个工作日内确认收到报告。
-- 14 天内完成初步评估并同步处理计划。
-- 修复发布前与报告者协调披露时间。
-
-## 重点关注领域
-
-- 身份认证、会话刷新、越权操作与退出后的凭据残留
-- 平台安全存储、敏感缓存、日志、截图和崩溃报告中的信息泄漏
-- 深链、外部链接、Markdown 展示、WebView（若引入）的输入与导航边界
-- 依赖、原生插件、签名材料与构建供应链风险
-
-## 安全使用建议
-
-- 生产使用 HTTPS，遵守平台网络安全要求，不全局忽略证书错误。
-- 不把服务端密钥放入源码、资源或 `--dart-define`；客户端配置不能承担秘密存储。
-- 会话按平台安全存储处理；不提交 `.env`、Token、keystore、签名私钥或用户数据。
-- 使用受支持的 Flutter/Dart 与插件版本，审查依赖和原生平台权限。
-
-此仓库尚无可运行的 Flutter 应用；服务端或 Web 漏洞请通过 [hotkey-server 安全入口](https://github.com/StephenQiu30/hotkey-server/security/advisories/new) 报告。
+如果发现安全问题，请通过 GitHub 的 [Private Vulnerability Reporting](https://github.com/StephenQiu30/hotkey-app/security/advisories/new) 私下报告，不要在公开 Issue 中披露细节。报告中不要附上真实的 Token、Cookie、签名文件或用户数据。
