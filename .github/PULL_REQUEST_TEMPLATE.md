@@ -10,4 +10,4 @@
 
 <!-- 说明服务端 OpenAPI 依赖、平台构建影响与仍需验证的内容。 -->
 
-提交前请阅读 [贡献指南](https://github.com/StephenQiu30/hotkey-app/blob/main/CONTRIBUTING.md)，并确认差异中没有凭据、签名材料、用户数据或构建产物。
+提交前请阅读 [贡献指南](https://github.com/StephenQiu30/Ripplesight-app/blob/main/CONTRIBUTING.md)，并确认差异中没有凭据、签名材料、用户数据或构建产物。

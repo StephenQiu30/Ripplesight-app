@@ -1,13 +1,13 @@
-# HotKey App 技术约定
+# Ripplesight App 技术约定
 
 ## 1. 状态
 
-已冻结。恢复开发需要本人在 hotkey-server 的 BACKLOG 中重新立项，并先确定目标平台、应用标识、状态管理、导航方案和 HTTP 库。
+已冻结。恢复开发需要本人在 Ripplesight 主仓库的 BACKLOG 中重新立项，并先确定目标平台、应用标识、状态管理、导航方案和 HTTP 库。
 
 ## 2. 技术
 
 - Flutter + Dart，依赖用 pub 管理，提交 `pubspec.lock`；Flutter/Dart 版本在初始化时锁定。
-- 只消费 hotkey-server 的 HTTP API。接口类型和端点从服务端运行时的 `/openapi.json` 生成到 `lib/api/`，不手写，也不复制 Web 端的类型。
+- 只消费 Ripplesight 主仓库的 HTTP API。接口类型和端点从服务端运行时的 `/openapi.json` 生成到 `lib/api/`，不手写，也不复制 Web 端的类型。
 - App 不直接连接 PostgreSQL、Redis、Kafka 或 MinIO。
 
 ## 3. 目录（初始化后）

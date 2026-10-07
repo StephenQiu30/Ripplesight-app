@@ -1,4 +1,4 @@
-# HotKey App 工程规范
+# Ripplesight App 工程规范
 
 适用于整个仓库。`CLAUDE.md` 通过导入加载本文件，规则只在这里修改。技术约定见 [PROJECT](PROJECT.md)。仓库当前已冻结，没有立项之前不初始化 Flutter 工程。
 
